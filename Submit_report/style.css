@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+body{
+    background-color: #F6F6F6 !important;
+    font-family: 'Inria Sans';
+}
+.container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding-right: 50px;
+    background-color: #232b57 !important;
+}
+a.navbar-brand {
+  padding: 5px;
+  color: #ffd41c;
+  text-decoration: none;
+  font-size: 30px;
+  font-family: 'Bungee Inline', sans-serif;
+  display: flex;
+  align-items: center;
+}
+.navbar, .navbar.bg-body-tertiary {
+    padding: 0 24px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it stays above other content */
+    background-color: #232b57 !important;
+}
+.form{
+    margin: 50px;
+    display: flex;
+    justify-self: center;
+    gap: 40px; /* space between left and right */
+    align-items: flex-start; /* top-align them */
+}
+
+h1#header{
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    margin-top: 100px;
+}
+
+.information-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.information-form h3{
+    font-size: 20px;
+    font-weight: bold;
+}
+.information-form p{
+    font-size: 18px;
+}
+
+.info{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    justify-content: space-between;
+    width: 602px;
+    margin-bottom: 20px;
+    margin-left: 75px;
+}
+
+.info input, select{
+    width: 327px;
+    height: 47px;
+    border-radius: 8px;
+    border: 1px solid black;
+    background-color: white;
+}
+.info.pic input{
+    padding: 8px;
+    width: 332px !important;
+}
+.info.desc{
+    margin-left: 0px;
+    width: 700px;
+    justify-content: left;
+    flex-direction: column;
+    gap: 0px !important;
+    flex: 1;
+}
+
+.info.desc textarea{
+    width: 580px !important;
+    height: 200px !important;
+    border-radius: 10px;
+}
+
+input[type="submit"] {
+  height: 50px;
+  width: 238px;
+  background-color: #386282; /* NU-L FAMS blue */
+  color: white;
+  border-radius: 5px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #386282; /* darker shade on hover */
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* flex-start (left), center, flex-end (right) */
+  margin-top: 20px;
+}
+
+/* ----- Force the form to be two columns ----- */
+.information-form > form {
+  display: flex !important;        /* important only if Bootstrap is overriding */
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  box-sizing: border-box;
+}
+
+/* left and right columns */
+.info-blocks {
+  flex: 0 0 60%;   /* left column width (adjust if needed) */
+  max-width: 700px;
+}
+.info-descrip {
+  flex: 1 1 40%;   /* right column grows/shrinks */
+  max-width: 580px;
+}
+
+/* label column width for alignment */
+.info p {
+  width: 220px;
+  margin: 0;
+}
+
+/* inputs take remaining space */
+.info input[type="text"],
+.info input[type="number"],
+.info select,
+.info .file_upload input[type="file"],
+.info textarea {
+  flex: 1 1 auto;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* responsive: stack on small screens */
+@media (max-width: 900px) {
+  .information-form > form {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .info p {
+    width: 140px;
+  }
+  .info-blocks, .info-descrip {
+    min-width: auto;
+    flex: none;
+    width: 100%;
+  }
+}
+
+/* MOBILE SCREEN */
+@media screen and (max-width: 426px) {
+  body{
+    height: 100vh;
+    width: 100vw;
+  }
+
+  a.navbar-brand {
+    height: 85px;
+    padding: 0px;
+  }
+  
+  .navbar, .navbar.bg-body-tertiary {
+      padding: 0 50px;
+      width: 425px;
+  }
+
+  h1#header {
+    padding: 20px 10px 0px 10px;
+    font-size: 30px;
+  }
+
+  .form {
+    width: 400px;
+    margin-right: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .info-blocks, .info-descrip{
+    width: 400px;
+    margin-left: 0px;
+  }
+
+  .information-form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .information-form h3 {
+    font-size: 18px;
+    text-align: left;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .info {
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: 5px;
+    width: 327px;
+    margin: 10px 15px 0px 13px;
+  }
+
+  .info p{
+    font-size: 16px;
+  }
+
+  .info input, select{
+    height: 40px;
+    font-size: 16px;
+    width: 327px !important;
+  }
+
+  .info-descrip, .info.desc {
+    width: 350px !important;
+  }
+  .info-descrip p {
+    margin: 10px 15px 10px 13px;
+    width: 327px !important;
+  }
+  
+  .info.desc textarea {
+    margin-left: 13px;
+    height: 100px !important; /* adjust height as you like */
+    width: 327px !important;
+  }
+
+  input[type="submit"] {
+    height: 40px;
+    width: 180px;
+    margin-bottom: 50px;
+    font-size: 16px;
+  }
+
+}

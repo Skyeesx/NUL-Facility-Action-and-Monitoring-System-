@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../../connection/api_guard.php'; 
+requireApi('Facility Management Staff');
 header('Content-Type: application/json; charset=utf-8');
 include('../../../connection/db_connection.php');
 

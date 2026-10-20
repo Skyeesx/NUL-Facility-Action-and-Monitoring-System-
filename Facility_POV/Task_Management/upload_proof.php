@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/../../connection/session_config.php';
+require_once __DIR__ . '/../../connection/api_guard.php';
 require_once __DIR__ . '/../../connection/db_connection.php';
+require_once __DIR__ . '/../../connection/upload_helpers.php';
 
-// Require facility staff access
-requireFacility();
+requireApi('Facility Management Staff');
 
 header('Content-Type: application/json');
 
@@ -20,59 +20,54 @@ if ($file['error'] !== UPLOAD_ERR_OK) {
     exit;
 }
 
-// Validate file type - only images and videos allowed
-$allowedTypes = [
-    'image/jpeg', 
-    'image/png', 
-    'image/jpg', 
-    'image/gif',
-    'image/webp',
-    'video/mp4',
-    'video/mpeg',
-    'video/quicktime',
-    'video/x-msvideo',
-    'video/webm'
-];
-$fileType = mime_content_type($file['tmp_name']);
+// The report must exist and must not already be complete.
+$check = $conn->prepare("SELECT status FROM report WHERE report_id = ?");
+$check->bind_param("i", $reportId);
+$check->execute();
+$report = $check->get_result()->fetch_assoc();
+$check->close();
 
-if (!in_array($fileType, $allowedTypes)) {
+if (!$report) {
+    echo json_encode(['success' => false, 'message' => 'Report not found']);
+    exit;
+}
+if ($report['status'] === 'Complete') {
+    echo json_encode(['success' => false, 'message' => 'This report is already complete']);
+    exit;
+}
+
+// Validate by real file content, and take the extension from the detected type.
+$fileType = famsDetectMime($file['tmp_name']);
+$allTypes = FAMS_IMAGE_TYPES + FAMS_VIDEO_TYPES;
+
+if (!isset($allTypes[$fileType])) {
     echo json_encode(['success' => false, 'message' => 'Invalid file type. Only images (JPG, PNG, GIF, WEBP) and videos (MP4, MOV, AVI, WEBM) are allowed.']);
     exit;
 }
 
-// Validate file size (max 50MB for videos, 10MB for images)
-$maxSize = (strpos($fileType, 'video') !== false) ? 50 * 1024 * 1024 : 10 * 1024 * 1024; // 50MB for video, 10MB for images
+$isVideo = isset(FAMS_VIDEO_TYPES[$fileType]);
+$maxSize = $isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
 if ($file['size'] > $maxSize) {
-    $maxSizeMB = (strpos($fileType, 'video') !== false) ? '50MB' : '10MB';
-    echo json_encode(['success' => false, 'message' => 'File size exceeds ' . $maxSizeMB . ' limit.']);
+    echo json_encode(['success' => false, 'message' => 'File size exceeds ' . ($isVideo ? '50MB' : '10MB') . ' limit.']);
     exit;
 }
 
-// Create uploads directory if it doesn't exist
-$uploadDir = __DIR__ . '/uploads/';
-if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0777, true);
-}
+$uploadDir = __DIR__ . '/uploads';
+famsEnsureUploadDir($uploadDir);
 
-$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-$filename = 'proof_' . $reportId . '_' . time() . '.' . $extension;
-$uploadPath = $uploadDir . $filename;
+$filename = famsRandomName('proof_' . $reportId, $allTypes[$fileType]);
+$uploadPath = $uploadDir . '/' . $filename;
 
 if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
     $stmt = $conn->prepare("UPDATE report SET proof_of_completion = ? WHERE report_id = ?");
     $stmt->bind_param("si", $filename, $reportId);
-    
+
     if ($stmt->execute()) {
-        echo json_encode([
-            'success' => true, 
-            'message' => 'Proof uploaded successfully',
-            'filename' => $filename
-        ]);
+        echo json_encode(['success' => true, 'message' => 'Proof uploaded successfully', 'filename' => $filename]);
     } else {
         unlink($uploadPath);
         echo json_encode(['success' => false, 'message' => 'Database update failed']);
     }
-    
     $stmt->close();
 } else {
     echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file']);

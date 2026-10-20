@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../connection/api_guard.php'; 
+requireApi('Admin');
     include('../connection/db_connection.php'); 
 
     $Priorityquery = "SELECT report_id, details, area, issue_type, priority_level

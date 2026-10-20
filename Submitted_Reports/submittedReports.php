@@ -83,7 +83,7 @@ requireAdmin();
 
     <div class="offcanvas-body">
       <ul class="sidebar-menu">
-        <li><a href="../dashboard_page/dashboard.php"><img src="./Dashboard_icon.png">Dashboard</a></li>
+        <li><a href="../Dashboard_page/Dashboard.php"><img src="./Dashboard_icon.png">Dashboard</a></li>
         <li><a href="../Submitted_reports/submittedReports.php"><img src="./Reports_icon.png">Reports</a></li>
         <li><a href="../Task_Management/index.php"><img src="./Task_icon.png">Tasks</a></li>
         <li><a href="../Progress_Tracker_page/Progress_Tracker.php"><img src="./Progress_icon.png">Progress Tracker</a></li>
@@ -170,14 +170,7 @@ requireAdmin();
                         $statusClass = 'status-complete';
                         break;
                 }
-                
-                echo "<td>
-                        <select class='statusSelect " . $statusClass . "' data-report-id='" . $row['report_id'] . "' onchange='updateStatus(this)'>
-                          <option value='Pending'" . ($row['status'] == 'Pending' ? ' selected' : '') . ">Pending</option>
-                          <option value='In Progress'" . ($row['status'] == 'In Progress' ? ' selected' : '') . ">In Progress</option>
-                          <option value='Complete'" . ($row['status'] == 'Complete' ? ' selected' : '') . ">Complete</option>
-                        </select>
-                      </td>";
+                echo "<td><span class='report-status " . $statusClass . "'>" . htmlspecialchars($row['status']) . "</span></td>";
                 echo "</tr>";
             }
 

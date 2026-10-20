@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../../connection/api_guard.php'; 
+requireApi('Facility Management Staff');
 include '../../../connection/db_connection.php';
 
 // Get the 3 most recent reports (you can adjust LIMIT as needed)

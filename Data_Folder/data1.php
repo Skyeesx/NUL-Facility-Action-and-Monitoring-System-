@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../connection/api_guard.php'; 
+requireApi('Admin');
 header('Content-Type: application/json; charset=utf-8');
 require __DIR__ . '/../connection/db_connection.php';
 

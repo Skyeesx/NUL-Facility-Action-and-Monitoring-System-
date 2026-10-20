@@ -102,17 +102,12 @@ requireFacility();
           <!-- Dynamic rows will be inserted here -->
            <?php
             // Fetch tasks with status change approval info
-            $sql = "SELECT r.*, 
-                    scr.approval_status,
-                    scr.new_status as approved_status
-                    FROM report r
-                    LEFT JOIN status_change_requests scr ON r.report_id = scr.report_id AND scr.approval_status = 'approved'
-                    ORDER BY r.report_date DESC"; 
+            $sql = "SELECT r.* FROM report r ORDER BY r.report_date DESC";        
             $result = $conn->query($sql); 
             while ($row = $result->fetch_assoc()) {
               // Check if proof has been uploaded
               $hasProof = !empty($row['proof_of_completion']);
-              $isApproved = ($row['approval_status'] === 'approved');
+              $isApproved = ($row['status'] === 'Complete');
               
               // Disable status dropdown if no proof OR if already approved
               $disabledAttr = (!$hasProof || $isApproved) ? ' disabled' : '';
@@ -171,7 +166,7 @@ requireFacility();
 
   <!-- Sidebar / Offcanvas -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebar-label">
-    <a class="sidebar-brand" href="../../dashboard_page/dashboard.php">
+    <a class="sidebar-brand" href="../Dashboard_page/Dashboard.php">
       <img src="Logo.png" alt="Logo" width="91" height="63" class="d-inline-block align-text-top">
       NU-L FAMS
     </a>

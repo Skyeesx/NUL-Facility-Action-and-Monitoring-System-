@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../connection/api_guard.php'; 
+requireApi('Admin');
 include '../connection/db_connection.php';
 
 $query = "SELECT area, details, status, report_date FROM report ORDER BY report_date DESC LIMIT 8";

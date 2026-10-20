@@ -6,8 +6,9 @@ require_once __DIR__ . '/connection/db_connection.php';
 if (isLoggedIn()) {
     if (isAdmin()) {
         header("Location: /FAMS/Dashboard_page/Dashboard.php");
-    } else if (isFacility()) {
-        header("Location: /FAMS/Facility_POV/Dashboard_page/Dashboard.php");
+    }
+    if (isFacility()) { 
+      header("Location: /FAMS/Facility_POV/Dashboard_page/Dashboard.php");
     }
     exit;
 }

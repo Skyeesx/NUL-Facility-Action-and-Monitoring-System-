@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../../../connection/api_guard.php'; 
+requireApi('Facility Management Staff');
     include('../../../connection/db_connection.php'); // adjust path if needed
 
     // Get top priority tasks for display

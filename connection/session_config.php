@@ -120,7 +120,7 @@ function isAdmin() {
  * @return bool
  */
 function isFacility() {
-    return isLoggedIn() && strtolower($_SESSION['user_role']) === 'facility';
+    return isLoggedIn() && strtolower($_SESSION['user_role']) === 'facility management staff';
 }
 
 /**

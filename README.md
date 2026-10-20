@@ -14,10 +14,10 @@ A web-based facility maintenance reporting system developed to streamline mainte
 - Facility request management
 - Proof image uploads
 
-## Technologies Used
+## Tech Stack
 
-- PHP
-- MySQL
-- HTML/CSS
-- JavaScript
-- XAMPP
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** PHP
+- **Database:** MySQL
+- **Development Environment:** XAMPP
+- **Hosting:** InfinityFree
